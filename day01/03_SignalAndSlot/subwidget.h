@@ -16,8 +16,10 @@ signals:
      * 信號沒有返回值，但可以有參數4
      * 信號就是函數的聲明，只需聲明，無需定義
      * 使用：emit mySignal();
+     * 信號可以重載
      */
     void mySignal();
+    void mySignal(int, QString);
 
 public slots:
 

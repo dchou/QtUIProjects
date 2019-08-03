@@ -1,5 +1,7 @@
 #include "mainwidget.h"
 #include <QPushButton>
+#include <QDebug>
+#include "subwidget.h"
 
 MainWidget::MainWidget(QWidget *parent)
     : QWidget(parent)
@@ -41,8 +43,26 @@ MainWidget::MainWidget(QWidget *parent)
     connect(&b3, &QPushButton::released, this, &MainWidget::changeWin);
 
     //處理子窗口的信號
-    connect(&w, &SubWidget::mySignal, this, &MainWidget::dealSub);
+    //方法ㄧ：
+    //connect(&subWin, &SubWidget::mySignal, this, &MainWidget::dealSub);
+    /*void (SubWidget::*funSignal)() = &SubWidget::mySignal;
+    connect(&subWin, funSignal, this, &MainWidget::dealSub);
+    void (SubWidget::*testSignal)(int, QString) = &SubWidget::mySignal;
+    connect(&subWin, testSignal, this, &MainWidget::dealSlot);*/
+
+    //方法二：
+    //Qt4信號連接，方便，但容易出問題
+    //Qt4槽函數必須有 slots 關鍵字來修飾
+    connect(&subWin, SIGNAL(mySignal()), this, SLOT(dealSub()));
+    connect(&subWin, SIGNAL(mySignal(int, QString)), this, SLOT(dealSlot()));
+
     resize(400, 300);
+}
+
+void MainWidget::dealSlot(int a, QString str)
+{
+    qDebug() << a << str;
+    //或 qDebug() << a << str.toUtf8().data();
 }
 
 void MainWidget::mySlot()
@@ -53,7 +73,7 @@ void MainWidget::mySlot()
 void MainWidget::changeWin()
 {
     //子窗口顯示
-    w.show();
+    subWin.show();
     //本窗口隱藏
     this->hide();
 }
@@ -61,7 +81,7 @@ void MainWidget::changeWin()
 void MainWidget::dealSub()
 {
     //子窗口隱藏
-    w.hide();
+    subWin.hide();
     //本窗口顯示
     this->show();
 }
