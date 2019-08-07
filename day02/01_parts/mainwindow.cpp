@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QCompleter>
 #include <QStringList>
+#include <QMovie>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -34,6 +35,26 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->lineEdit->setCompleter(com);
 
+    //QLabel
+    ui->labelText->setText("xyz");
+
+    //設置圖片
+    ui->labelImage->setPixmap(QPixmap("://Image/LuffyQ.png"));
+    //                                 ~~~~~~~~~~~~~~~~~~~      <--- 從 clipboard 貼上的
+    //讓圖片自動適應 label 大小
+    ui->labelImage->setScaledContents(true);
+
+    //創建動畫
+    QMovie *myMovie = new QMovie("://Image/mario.gif");
+    //設置動畫
+    ui->labelGif->setMovie(myMovie);
+    //啟動動畫
+    myMovie->start();
+    ui->labelGif->setScaledContents(true);
+
+    //設置 html
+    ui->labelUrl->setText("<h1><a href=\"htts://www.baidu.com\">百度一下</a></h1>");
+    ui->labelUrl->setOpenExternalLinks(true);
 }
 
 MainWindow::~MainWindow()
