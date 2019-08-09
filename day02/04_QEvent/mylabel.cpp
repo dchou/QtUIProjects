@@ -46,5 +46,17 @@ void MyLabel::mouseMoveEvent(QMouseEvent *ev)
 {
     QString text = QString("<center><h1>Mouse Move: (%1, %2)</h1></center>")
             .arg(ev->x()).arg(ev->y());
+    //this->setText(text);
+}
+
+void MyLabel::enterEvent(QEvent *)
+{
+    QString text = QString("<center><h1>Mouse Enter</h1></center>");
+    this->setText(text);
+}
+
+void MyLabel::leaveEvent(QEvent *)
+{
+    QString text = QString("<center><h1>Mouse Leave</h1></center>");
     this->setText(text);
 }
