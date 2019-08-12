@@ -2,6 +2,8 @@
 #include "ui_mywidget.h"
 #include <QDebug>
 #include <QKeyEvent>
+#include <QPushButton>
+#include <QMessageBox>
 
 MyWidget::MyWidget(QWidget *parent) :
     QWidget(parent),
@@ -10,6 +12,12 @@ MyWidget::MyWidget(QWidget *parent) :
     ui->setupUi(this);
 
     timerId = this->startTimer(1000); //毫秒為單位，每隔一秒觸發一次
+
+    connect(ui->pushButton, &MyButton::clicked,
+            [=]()
+            {
+                qDebug() << "按鈕被按下";
+            });
 }
 
 MyWidget::~MyWidget()
@@ -41,4 +49,27 @@ void MyWidget::timerEvent(QTimerEvent *e)
         }
     }
 
+}
+
+void MyWidget::mousePressEvent(QMouseEvent *e)
+{
+    qDebug() << "父組件也收到了";
+}
+
+void MyWidget::closeEvent(QCloseEvent *e)
+{
+    int ret = QMessageBox::question(this, "question", "是否需要關閉窗口？");
+    if (ret == QMessageBox::Yes)
+    {
+        //關閉窗口
+        //處理關閉窗口事件，接收事件，事件就不再往下傳遞
+        e->accept();
+    }
+    else
+    {
+        //不關閉窗口
+        //忽略事件，事件繼續傳遞給父組件
+        e->ignore();
+
+    }
 }

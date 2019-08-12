@@ -21,6 +21,13 @@
      </property>
     </widget>
    </item>
+   <item>
+    <widget class="MyButton" name="pushButton">
+     <property name="text">
+      <string>PushButton</string>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
@@ -29,6 +36,11 @@
    <class>MyLabel</class>
    <extends>QLabel</extends>
    <header location="global">mylabel.h</header>
+  </customwidget>
+  <customwidget>
+   <class>MyButton</class>
+   <extends>QPushButton</extends>
+   <header location="global">mybutton.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

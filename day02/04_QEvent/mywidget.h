@@ -21,6 +21,10 @@ protected:
     //計時器事件
     void timerEvent(QTimerEvent *);
 
+    void mousePressEvent(QMouseEvent *);
+    //關閉窗口事件
+    void closeEvent(QCloseEvent *);
+
 private:
     Ui::MyWidget *ui;
 
