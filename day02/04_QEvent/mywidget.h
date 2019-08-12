@@ -24,6 +24,8 @@ protected:
     void mousePressEvent(QMouseEvent *);
     //關閉窗口事件
     void closeEvent(QCloseEvent *);
+    //重寫 event 事件
+    bool event(QEvent *);
 
 private:
     Ui::MyWidget *ui;

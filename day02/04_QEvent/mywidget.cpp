@@ -4,6 +4,7 @@
 #include <QKeyEvent>
 #include <QPushButton>
 #include <QMessageBox>
+#include <QEvent>
 
 MyWidget::MyWidget(QWidget *parent) :
     QWidget(parent),
@@ -71,5 +72,43 @@ void MyWidget::closeEvent(QCloseEvent *e)
         //忽略事件，事件繼續傳遞給父組件
         e->ignore();
 
+    }
+}
+
+bool MyWidget::event(QEvent *e)
+{
+    //事件分发
+    /*switch(e->type())
+    {
+        case QEvent::Close: {
+            QCloseEvent *closeEv = static_cast<QCloseEvent *>(e);
+            closeEvent(closeEv);
+            break;
+        }
+        case QEvent::MouseMove: {
+            QMouseEvent *mouseEv = static_cast<QMouseEvent *>(e);
+            mouseReleaseEvent(mouseEv);
+            break;
+        }
+    }*/
+
+    if (e->type() == QEvent::Timer)
+    {
+        //幹掉定時器
+        //如果返回 true, 事件停止傳播
+        QTimerEvent *timerEv = static_cast<QTimerEvent *>(e);
+        timerEvent(timerEv);
+        return true;
+    }
+    else if (e->type() == QEvent::KeyPress) {
+        QKeyEvent *keyEv = static_cast<QKeyEvent *>(e);
+        if (keyEv->key() == Qt::Key_B)
+        {
+            return QWidget::event(e);
+        }
+        return true;
+    }
+    else {
+        return QWidget::event(e);
     }
 }
