@@ -26,6 +26,8 @@ protected:
     void closeEvent(QCloseEvent *);
     //重寫 event 事件
     bool event(QEvent *);
+    //事件過濾器
+    bool eventFilter(QObject *obj, QEvent *e);
 
 private:
     Ui::MyWidget *ui;

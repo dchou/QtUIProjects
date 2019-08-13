@@ -19,6 +19,10 @@ MyWidget::MyWidget(QWidget *parent) :
             {
                 qDebug() << "按鈕被按下";
             });
+
+    //安裝過濾器
+    ui->label_2->installEventFilter(this);
+    ui->label_2->setMouseTracking(true);
 }
 
 MyWidget::~MyWidget()
@@ -111,4 +115,23 @@ bool MyWidget::event(QEvent *e)
     else {
         return QWidget::event(e);
     }
+}
+
+bool MyWidget::eventFilter(QObject *obj, QEvent *e)
+{
+    if (obj == ui->label_2)
+    {
+        //判斷事件
+        if (e->type() == QEvent::MouseMove)
+        {
+            QMouseEvent *env = static_cast<QMouseEvent *>(e);
+            ui->label_2->setText(QString("Mouse move:(%1, %2)").arg(env->x()).arg(env->y()));
+            return true; //不再傳遞
+        }
+    }
+    if (obj == ui->pushButton)
+    {
+        //...
+    }
+    return QWidget::eventFilter(obj, e);
 }
