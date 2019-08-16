@@ -70,5 +70,21 @@ void Widget::paintEvent(QPaintEvent *)
     //畫圓形/橢圓形
     p.drawEllipse(QPoint(150, 150), 50, 25);
 
+    //畫笑臉
+    p.drawPixmap(x, 180, 80, 80, QPixmap("://Image/OnePiece.png"));
+
     p.end();
+}
+
+
+void Widget::on_pushButton_clicked()
+{
+    x += 20;
+    if (x>width())
+    {
+        x = 0;
+    }
+
+    //刷新窗口，讓窗口重繪
+    update();  //間接調用 paintEvent()
 }
