@@ -2,6 +2,8 @@
 #include "ui_widget.h"
 #include <QFileDialog>
 #include <QFile>
+#include <QDebug>
+#include <QDateTime>
 
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
@@ -44,6 +46,14 @@ void Widget::on_buttonRead_clicked()
 
         //關閉文件
         file.close();
+
+        //-----------------------
+        //獲取文件信息
+        QFileInfo info(path);
+        qDebug() << "文件名稱: " << info.fileName(); // info.filename().toUtf8().data();
+        qDebug() << "文件後綴: " << info.suffix();
+        qDebug() << "文件大小: " << info.size();
+        qDebug() << "文件創建時間: " << info.created().toString("yyyy-MM-dd hh:mm:ss"); //2016-01-14 15:13:00
     }
 }
 
