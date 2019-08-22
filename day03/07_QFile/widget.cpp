@@ -20,7 +20,7 @@ void Widget::on_buttonRead_clicked()
     QString path = QFileDialog::getOpenFileName(this, "open", "../", "TXT(*.txt)");
     if (path.isEmpty() == false)
     {
-        //文件對象
+        //創建文件對象
         QFile file(path);
 
         //打開文件 只讀方式
@@ -40,6 +40,49 @@ void Widget::on_buttonRead_clicked()
                 array +=file.readLine();
             }
             ui->textEdit->setText(array);
+        }
+
+        //關閉文件
+        file.close();
+    }
+}
+
+void Widget::on_buttonWrite_clicked()
+{
+    QString path = QFileDialog::getSaveFileName(this, "save", "../", "TXT(*.txt)");
+    if (path.isEmpty() == false)
+    {
+        //創建文件對象
+        //OK QFile file(path);
+        QFile file;
+        file.setFileName(path);
+
+        //打開文件 只寫方式
+        bool isOK = file.open(QIODevice::WriteOnly);
+        if (isOK == true)
+        {
+            //讀文件, 默認只識別 UTF8 編碼
+            QString str = ui->textEdit->toPlainText();
+            //寫文件
+            //1. QString -> QByteArray
+            //OK file.write(str.toUtf8());
+
+            //2. QString -> C++ string -> char *
+            file.write(str.toStdString().data());  //OK
+            //或
+            file.write(str.toLocal8Bit());         //轉換為本地頻台編碼
+
+            //QString -> QByteArray
+            QString str1 = "123";
+            QByteArray a = str1.toUtf8();  //中文
+            a = str1.toLocal8Bit();        //本地編碼
+
+            //QByteArray -> char *
+            char *b = a.data();
+
+            //char * -> QString
+            char *p = "abc";
+            QString str3 = QString(p);
         }
 
         //關閉文件
