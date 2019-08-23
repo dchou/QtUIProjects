@@ -13,7 +13,7 @@ Widget::Widget(QWidget *parent) :
     QPainter p;
     p.begin(&picture);
 
-    p.drawPixmap(0, 0, 80, 80, QPixmap("../Image/Bufferfly.png"));
+    p.drawPixmap(0, 0, 80, 80, QPixmap("../Image/butterfly.png"));
     p.drawLine(50, 50, 150, 50);
 
     p.end();
