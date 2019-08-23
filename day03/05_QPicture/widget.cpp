@@ -29,9 +29,27 @@ Widget::~Widget()
 
 void Widget::paintEvent(QPaintEvent *)
 {
+#if 0
     QPicture pic;
     pic.load("../picture.bin");
 
     QPainter p(this);
     p.drawPicture(0, 0, pic);
+#endif
+
+    QPainter p(this);
+    QPixmap pixmap;
+    pixmap.load("../Image/butterfly.png");
+
+    //QPixmap -> QImage
+    QImage tempImage = pixmap.toImage();
+    p.drawImage(0, 0, tempImage);
+
+    //-------------------------
+    QImage image;
+    image.load("../Image/butterfly.png");
+
+    //QImage -> QPixmap
+    QPixmap tempPixmap = QPixmap::fromImage(image);
+    p.drawPixmap(150, 0, tempPixmap);
 }
