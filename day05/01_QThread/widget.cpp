@@ -3,6 +3,7 @@
 #include "widget.h"
 #include <QThread>
 #include <QDebug>
+#include "mythread.h"
 
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
@@ -14,6 +15,13 @@ Widget::Widget(QWidget *parent) :
 
     //只要定時器啟動 自動觸發 timeout
     connect(myTimer, &QTimer::timeout, this, &Widget::dealTimeout);
+
+    thread = new MyThread(this);
+
+    connect(thread, &MyThread::isDone, this, &Widget::dealDone);
+
+    //当按窗口右上角x时，窗口触发destroyed()，否则关了窗口线程还会运行
+    connect(this, &Widget::destroyed, this, &Widget::stopThread);
 }
 
 Widget::~Widget()
@@ -29,6 +37,22 @@ void Widget::dealTimeout()
     ui->lcdNumber->display(i);
 }
 
+void Widget::dealDone()
+{
+    qDebug() << "it is over";
+    myTimer->stop();  //關閉定時器
+}
+
+void Widget::stopThread()
+{
+    //停止線程，不是立馬關閉，釋放線程佔用的內存，線程號等資源。和下面配合使用
+    thread->quit();//類似linux中，pthread_exit()
+    //等待線程處理完手頭動作
+    thread->wait();//類似linux中，pthread_join , pthread_detach,
+
+    //terminate 強制結束，很暴力，往往會導致內存問題。所以一般不用
+}
+
 void Widget::on_pushButton_clicked()
 {
     //如果定時器沒有工作
@@ -37,12 +61,6 @@ void Widget::on_pushButton_clicked()
         myTimer->start(100); // 100 msec
     }
 
-    //模擬很复杂的数据处理 需要耗时5s
-    QThread::sleep(5);  //图形界面中一旦使用了线程休眠，图形界面就不会刷新(不会动)，呈现卡住无响应的状态。
-    //也就是说由于睡眠，导致前面启动了的定时器都不工作
-
-    myTimer->stop();//过了5s后图形界面才会有响应。但是
-    //此时是停了定时器，前面是睡眠 定时器也不工作，所以呈现出一直定时器一直不工作的状态
-
-    qDebug() << "over";
+    //启动线程，处理数据
+    thread->start();
 }
