@@ -13,6 +13,8 @@ void MyThread::myTimeout()
     {
         QThread::sleep(1);
         emit mySignal();
+
+        //子線程不能處理 UI
         //QMessageBox::aboutQt(NULL);
 
         qDebug() << "子线程号：" << QThread::currentThread();
