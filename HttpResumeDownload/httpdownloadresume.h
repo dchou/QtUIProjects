@@ -30,7 +30,7 @@ private:
     QNetworkAccessManager mgr;
     DownLoadStatus state;
     int fileSize;
-    QString URL = "http://google.com/";
+    QString URL = "http://cdn.atgamescloud.com/retro-apps/production/AppVersion/ha8800_test/10/ha8800_0.9.100.img?ttl=1568108934&sig=b5a5bfe3d5ad62305bba9ce531695742";
 };
 
 #endif // HTTPDOWNLOADRESUME_H

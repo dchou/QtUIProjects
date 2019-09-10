@@ -2,6 +2,7 @@
 #define MYWIDGET_H
 
 #include <QWidget>
+#include <QNetworkAccessManager>
 
 namespace Ui {
 class MyWidget;
@@ -22,7 +23,9 @@ private slots:
 
 private:
     Ui::MyWidget *ui;
-    QString URL = "http://cdn.atgamescloud.com/retro-apps/production/AppVersion/ha8800_test/10/ha8800_0.9.100.img?ttl=1568108934&sig=b5a5bfe3d5ad62305bba9ce531695742";
+    QNetworkAccessManager mgr;
+    //QString URL = "http://cdn.atgamescloud.com/retro-apps/production/AppVersion/ha8800_test/10/ha8800_0.9.100.img?ttl=1568108934&sig=b5a5bfe3d5ad62305bba9ce531695742";
+    QString URL = "https://mirrors.tuna.tsinghua.edu.cn/qt/archive/online_installers/3.1/qt-unified-mac-x64-3.1.1-online.dmg";
 };
 
 #endif // MYWIDGET_H
